@@ -1,9 +1,18 @@
-﻿
+
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.32112.339
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Trove", "src\Trove\Trove.csproj", "{865D997C-F772-409D-B2C5-25E97F3ACC76}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Trove", "src\Trove\Trove.csproj", "{865D997C-F772-409D-B2C5-25E97F3ACC76}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Trove.DataAccess.MongoDB", "src\Trove.DataAccess.MongoDB\Trove.DataAccess.MongoDB.csproj", "{4E8F7C97-7742-4CEB-AF03-E8D66C992252}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Trove.Shared", "src\Trove.Shared\Trove.Shared.csproj", "{4552A7BC-F828-42C2-81D0-34018237E269}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Trove.DataModels", "src\Trove.DataModels\Trove.DataModels.csproj", "{7D48B697-7EC3-4A36-B5BD-077EB6262611}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Trove.DataAccess.FileSystem", "src\Trove.DataAccess.FileSystem\Trove.DataAccess.FileSystem.csproj", "{DA3A4E82-E053-40BB-A6B5-73635E607C7C}"
+EndProject
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +24,22 @@ Global
 		{865D997C-F772-409D-B2C5-25E97F3ACC76}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{865D997C-F772-409D-B2C5-25E97F3ACC76}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{865D997C-F772-409D-B2C5-25E97F3ACC76}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4E8F7C97-7742-4CEB-AF03-E8D66C992252}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4E8F7C97-7742-4CEB-AF03-E8D66C992252}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4E8F7C97-7742-4CEB-AF03-E8D66C992252}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4E8F7C97-7742-4CEB-AF03-E8D66C992252}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4552A7BC-F828-42C2-81D0-34018237E269}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4552A7BC-F828-42C2-81D0-34018237E269}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4552A7BC-F828-42C2-81D0-34018237E269}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4552A7BC-F828-42C2-81D0-34018237E269}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7D48B697-7EC3-4A36-B5BD-077EB6262611}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7D48B697-7EC3-4A36-B5BD-077EB6262611}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7D48B697-7EC3-4A36-B5BD-077EB6262611}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7D48B697-7EC3-4A36-B5BD-077EB6262611}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DA3A4E82-E053-40BB-A6B5-73635E607C7C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DA3A4E82-E053-40BB-A6B5-73635E607C7C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DA3A4E82-E053-40BB-A6B5-73635E607C7C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DA3A4E82-E053-40BB-A6B5-73635E607C7C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
