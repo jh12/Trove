@@ -1,13 +1,24 @@
-FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build-env
+# Final image
+FROM mcr.microsoft.com/dotnet/aspnet:6.0 as base
 WORKDIR /app
 
-COPY *.csproj ./
-RUN dotnet restore
+# Build image
+FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
+WORKDIR /src
 
-RUN dotnet publish -c Release -o out -p:VersionPrefix=$RELEASE_VERSION
+COPY ["src/Trove/Trove.csproj". "Trove/"]
+COPY ["src/Trove.DataAccess.FileSystem/Trove.DataAccess.FileSystem.csproj". "TroveDataAccessFileSystem/"]
+COPY ["src/Trove.DataAccess.MongoDB/Trove.DataAccess.MongoDB.csproj". "TroveDataAccessMongoDB/"]
+COPY ["src/Trove.DataModels/Trove.DataModels.csproj". "TroveDataModels/"]
+COPY ["src/Trove.Shared/Trove.Shared.csproj". "TroveShared/"]
 
+RUN dotnet restore "Trove/Trove.csproj"
+COPY . .
+WORKDIR "/src/Trove"
+RUN dotnet publish -c Release -o /app/publish -p:VersionPrefix=$RELEASE_VERSION
 
-FROM mcr.microsoft.com/dotnet/aspnet:6.0
+# Copy artifacts to final
+FROM base AS final
 WORKDIR /app
-COPY --from=build-env /app/out .
+COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "Trove.dll"]
