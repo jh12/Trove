@@ -15,7 +15,10 @@ COPY ["src/Trove.Shared/Trove.Shared.csproj". "TroveShared/"]
 RUN dotnet restore "Trove/Trove.csproj"
 COPY . .
 WORKDIR "/src/Trove"
-RUN dotnet publish -c Release -o /app/publish -p:VersionPrefix=$RELEASE_VERSION
+RUN dotnet build "Trove.csproj" -c Release -o /app/build -p:VersionPrefix=$RELEASE_VERSION
+
+FROM build AS publish
+RUN dotnet publish "Trove.csproj" -c Release -o /app/publish -p:VersionPrefix=$RELEASE_VERSION
 
 # Copy artifacts to final
 FROM base AS final
