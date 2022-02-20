@@ -6,11 +6,11 @@ WORKDIR /app
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
 
-COPY ["src/Trove/Trove.csproj". "Trove/"]
-COPY ["src/Trove.DataAccess.FileSystem/Trove.DataAccess.FileSystem.csproj". "TroveDataAccessFileSystem/"]
-COPY ["src/Trove.DataAccess.MongoDB/Trove.DataAccess.MongoDB.csproj". "TroveDataAccessMongoDB/"]
-COPY ["src/Trove.DataModels/Trove.DataModels.csproj". "TroveDataModels/"]
-COPY ["src/Trove.Shared/Trove.Shared.csproj". "TroveShared/"]
+COPY ["src/Trove/Trove.csproj", "Trove/"]
+COPY ["src/Trove.DataAccess.FileSystem/Trove.DataAccess.FileSystem.csproj", "TroveDataAccessFileSystem/"]
+COPY ["src/Trove.DataAccess.MongoDB/Trove.DataAccess.MongoDB.csproj", "TroveDataAccessMongoDB/"]
+COPY ["src/Trove.DataModels/Trove.DataModels.csproj", "TroveDataModels/"]
+COPY ["src/Trove.Shared/Trove.Shared.csproj", "TroveShared/"]
 
 RUN dotnet restore "Trove/Trove.csproj"
 COPY . .
