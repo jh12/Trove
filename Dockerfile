@@ -1,9 +1,9 @@
 # Final image
-FROM mcr.microsoft.com/dotnet/aspnet:6.0 as base
+FROM mcr.microsoft.com/dotnet/aspnet:6.0-bullseye-slim as base
 WORKDIR /app
 
 # Build image
-FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
+FROM mcr.microsoft.com/dotnet/sdk:6.0-bullseye-slim AS build
 WORKDIR /src
 
 COPY ["src/Trove/Trove.csproj", "Trove/"]
