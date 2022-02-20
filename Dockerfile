@@ -4,6 +4,7 @@ WORKDIR /app
 
 # Build image
 FROM mcr.microsoft.com/dotnet/sdk:6.0-bullseye-slim AS build
+ARG RELEASE_VERSION
 WORKDIR /src
 
 COPY ["src/Trove/Trove.csproj", "Trove/"]
