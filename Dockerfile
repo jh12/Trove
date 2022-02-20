@@ -8,10 +8,10 @@ ARG RELEASE_VERSION
 WORKDIR /src
 
 COPY ["src/Trove/Trove.csproj", "Trove/"]
-COPY ["src/Trove.DataAccess.FileSystem/Trove.DataAccess.FileSystem.csproj", "TroveDataAccessFileSystem/"]
-COPY ["src/Trove.DataAccess.MongoDB/Trove.DataAccess.MongoDB.csproj", "TroveDataAccessMongoDB/"]
-COPY ["src/Trove.DataModels/Trove.DataModels.csproj", "TroveDataModels/"]
-COPY ["src/Trove.Shared/Trove.Shared.csproj", "TroveShared/"]
+COPY ["src/Trove.DataAccess.FileSystem/Trove.DataAccess.FileSystem.csproj", "Trove.DataAccess.FileSystem/"]
+COPY ["src/Trove.DataAccess.MongoDB/Trove.DataAccess.MongoDB.csproj", "Trove.DataAccess.MongoDB/"]
+COPY ["src/Trove.DataModels/Trove.DataModels.csproj", "Trove.DataModels/"]
+COPY ["src/Trove.Shared/Trove.Shared.csproj", "Trove.Shared/"]
 
 #RUN dotnet restore "Trove/Trove.csproj"
 COPY . .
