@@ -12,7 +12,7 @@ COPY ["src/Trove.DataAccess.MongoDB/Trove.DataAccess.MongoDB.csproj", "TroveData
 COPY ["src/Trove.DataModels/Trove.DataModels.csproj", "TroveDataModels/"]
 COPY ["src/Trove.Shared/Trove.Shared.csproj", "TroveShared/"]
 
-RUN dotnet restore "Trove/Trove.csproj"
+#RUN dotnet restore "Trove/Trove.csproj"
 COPY . .
 WORKDIR "/src/Trove"
 RUN dotnet build "Trove.csproj" -c Release -o /app/build -p:VersionPrefix=$RELEASE_VERSION
