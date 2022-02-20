@@ -44,4 +44,4 @@ jobs:
           ghcr.io/${{ github.repository_owner }}/trove:latest
           ghcr.io/${{ github.repository_owner }}/trove:${{ steps.gitversion.outputs.NuGetVersionV2 }}
         build-args: RELEASE_VERSION=${{ steps.gitversion.outputs.NuGetVersionV2 }}
-        platforms: linux/amd64,linux/arm/v7
+        platforms: linux/amd64
