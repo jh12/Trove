@@ -5,24 +5,28 @@ WORKDIR /app
 # Build image
 FROM mcr.microsoft.com/dotnet/sdk:6.0-bullseye-slim AS build
 ARG RELEASE_VERSION
-WORKDIR /src
+WORKDIR /sln
 
-COPY ["src/Trove/Trove.csproj", "Trove/"]
-COPY ["src/Trove.DataAccess.FileSystem/Trove.DataAccess.FileSystem.csproj", "Trove.DataAccess.FileSystem/"]
-COPY ["src/Trove.DataAccess.MongoDB/Trove.DataAccess.MongoDB.csproj", "Trove.DataAccess.MongoDB/"]
-COPY ["src/Trove.DataModels/Trove.DataModels.csproj", "Trove.DataModels/"]
-COPY ["src/Trove.Shared/Trove.Shared.csproj", "Trove.Shared/"]
+COPY ./*.sln ./Nuget.config ./
 
-RUN dotnet restore "Trove/Trove.csproj"
-COPY . .
-WORKDIR "/src/Trove"
-RUN dotnet build "Trove.csproj" -c Release -o /app/build -p:VersionPrefix=$RELEASE_VERSION
+# Copy the main source project files
+COPY src/*/*.csproj ./
+RUN for file in $(ls *.csproj); do mkdir -p src/${file%.*}/ && mv $file src/${file%.*}/; done
 
-FROM build AS publish
-RUN dotnet publish "Trove.csproj" -c Release -o /app/publish -p:VersionPrefix=$RELEASE_VERSION
+# Copy the test project files
+COPY test/*/*.csproj ./
+RUN for file in $(ls *.csproj); do mkdir -p test/${file%.*}/ && mv $file test/${file%.*}/; done
+
+RUN dotnet restore
+
+COPY ./test ./test
+COPY ./src ./src
+RUN dotnet build -c Release --no-restore -o /app/build -p:VersionPrefix=$RELEASE_VERSION
+
+RUN dotnet publish "./src/Trove/Trove.csproj" -c Release --no-restore -o /app/publish -p:VersionPrefix=$RELEASE_VERSION
 
 # Copy artifacts to final
 FROM base AS final
 WORKDIR /app
-COPY --from=publish /app/publish .
+COPY --from=build /app/publish .
 ENTRYPOINT ["dotnet", "Trove.dll"]
