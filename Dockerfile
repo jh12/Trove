@@ -7,7 +7,7 @@ FROM mcr.microsoft.com/dotnet/sdk:6.0-bullseye-slim AS build
 ARG RELEASE_VERSION
 WORKDIR /sln
 
-COPY ./*.sln ./Nuget.config ./
+COPY ./*.sln ./
 
 # Copy the main source project files
 COPY src/*/*.csproj ./
