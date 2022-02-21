@@ -14,12 +14,12 @@ COPY src/*/*.csproj ./
 RUN for file in $(ls *.csproj); do mkdir -p src/${file%.*}/ && mv $file src/${file%.*}/; done
 
 # Copy the test project files
-COPY test/*/*.csproj ./
-RUN for file in $(ls *.csproj); do mkdir -p test/${file%.*}/ && mv $file test/${file%.*}/; done
+#COPY test/*/*.csproj ./
+#RUN for file in $(ls *.csproj); do mkdir -p test/${file%.*}/ && mv $file test/${file%.*}/; done
 
 RUN dotnet restore
 
-COPY ./test ./test
+#COPY ./test ./test
 COPY ./src ./src
 RUN dotnet build -c Release --no-restore -o /app/build -p:VersionPrefix=$RELEASE_VERSION
 
