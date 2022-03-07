@@ -1,6 +1,8 @@
 ﻿using System.Net;
+using System.Security.Cryptography;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
+using Serilog.Context;
 using Trove.Shared;
 using Trove.Shared.Repositories;
 using FileOptions = Trove.Shared.Options.FileOptions;
@@ -36,5 +38,31 @@ public class FileController : ControllerBase
         FileResult fileResult = await _fileRepository.GetFileAsync(sguid.Guid, cancellationToken);
 
         return new FileStreamResult(fileResult.Stream, fileResult.ContentType);
+    }
+
+    [HttpPost("{id}")]
+    [ProducesResponseType((int)HttpStatusCode.OK)]
+    public async Task<ActionResult> UploadFile(string id, CancellationToken cancellationToken)
+    {
+        if (!SGuid.TryParse(id, out SGuid sguid))
+            return BadRequest();
+
+        using (LogContext.PushProperty("MediaId", sguid.Guid))
+        {
+            if (Request.ContentLength > _fileOptions.Upload.MaxFileSizeBytes)
+                return new UnprocessableEntityResult();
+
+            SHA256 hashAlgorithm = SHA256.Create();
+
+            await using (CryptoStream hashStream = new(Request.Body, hashAlgorithm, CryptoStreamMode.Read, false))
+            {
+                await _fileRepository.SaveFileAsync(sguid.Guid, hashStream, cancellationToken);
+
+                if (!hashStream.HasFlushedFinalBlock)
+                    await hashStream.FlushFinalBlockAsync(cancellationToken);
+            }
+
+            return Ok();
+        }
     }
 }
