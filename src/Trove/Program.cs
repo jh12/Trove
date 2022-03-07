@@ -9,6 +9,10 @@ using ServiceCollectionHelper = Trove.Helpers.ServiceCollectionHelper;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Configuration for when running in Docker container
+builder.Configuration
+    .AddJsonFile("/app/config/appsettings.json", true, true);
+
 // Host
 var hostBuilder = builder.Host;
 hostBuilder.UseSerilog((ctx, lc) =>
