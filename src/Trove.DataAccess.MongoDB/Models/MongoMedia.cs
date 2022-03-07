@@ -1,7 +1,8 @@
-﻿using MongoDB.Bson.Serialization.Attributes;
+using MongoDB.Bson.Serialization.Attributes;
 
 namespace Trove.DataAccess.MongoDB.Models;
 
+ [BsonIgnoreExtraElements]
 internal class MongoMedia
 {
     [BsonId]
