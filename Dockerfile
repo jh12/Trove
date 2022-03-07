@@ -27,6 +27,11 @@ RUN dotnet publish "./src/Trove/Trove.csproj" -c Release --no-restore -o /app/pu
 
 # Copy artifacts to final
 FROM base AS final
+RUN addgroup --system --gid 1000 netcoregroup \
+&& adduser --system --uid 1000 --ingroup netcoregroup --shell /bin/sh netcoreuser
+
 WORKDIR /app
 COPY --from=build /app/publish .
+
+USER 1000
 ENTRYPOINT ["dotnet", "Trove.dll"]
