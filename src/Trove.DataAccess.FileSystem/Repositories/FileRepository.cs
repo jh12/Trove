@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.Options;
+using Microsoft.Extensions.Options;
 using Trove.Shared.Exception;
 using Trove.Shared.Models;
 using Trove.Shared.Repositories;
@@ -55,6 +55,6 @@ public class FileRepository : IFileRepository
 
         string idStr = id.ToString();
 
-        return Path.Combine(basePath, idStr[..1], idStr[1..2]);
+        return Path.Combine(basePath, idStr[..1], idStr[1..3]);
     }
 }
