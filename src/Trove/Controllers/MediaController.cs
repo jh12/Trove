@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Serilog.Context;
 using Trove.DataModels;
+using Trove.Shared;
 using Trove.Shared.Repositories;
 
 namespace Trove.Controllers;
@@ -38,5 +39,31 @@ public class MediaController : ControllerBase
         Media newMedia = await _mediaRepository.CreateMediaAsync(media, cancellationToken);
 
         return CreatedAtAction(nameof(GetMedia), new { id = newMedia.Id }, newMedia);
+    }
+
+    [HttpGet("recent")]
+    public async Task<IActionResult> ListRecentMedias(CancellationToken cancellationToken)
+    {
+        return Ok(_mediaRepository.GetRecentMediaAsync(100, cancellationToken));
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> ListMedias(string? after, CancellationToken cancellationToken)
+    {
+        Guid? afterGuid = null;
+
+        if (!string.IsNullOrEmpty(after))
+        {
+            if (SGuid.TryParse(after, out SGuid sguid))
+            {
+                afterGuid = sguid.Guid;
+            }
+            else
+            {
+                return BadRequest();
+            }
+        }
+
+        return Ok(_mediaRepository.ListMediasAsync(afterGuid, cancellationToken));
     }
 }

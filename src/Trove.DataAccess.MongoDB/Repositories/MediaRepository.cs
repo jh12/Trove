@@ -51,6 +51,33 @@ public class MediaRepository : IMediaRepository
         }
     }
 
+    public async IAsyncEnumerable<Media> ListMediasAsync(Guid? afterId, [EnumeratorCancellation] CancellationToken cancellationToken)
+    {
+        DateTime minCreatedTime = DateTime.MinValue;
+
+        if (afterId != null)
+        {
+            MongoMedia? afterMongoMedia = await _mediaStore.Find(m => (m.Deleted == null || !m.Deleted.Value) && m.Id == afterId.Value)
+                .SingleOrDefaultAsync(cancellationToken);
+
+            if(afterMongoMedia != null)
+                minCreatedTime = afterMongoMedia.CreatedAt;
+        }
+
+        using IAsyncCursor<MongoMedia>? cursor = await _mediaStore.Find(m => (m.Deleted == null || !m.Deleted.Value) && m.CreatedAt > minCreatedTime)
+            .SortBy(m => m.CreatedAt)
+            .Limit(2)
+            .ToCursorAsync(cancellationToken);
+
+        while (await cursor.MoveNextAsync(cancellationToken))
+        {
+            foreach (MongoMedia mongoMedia in cursor.Current)
+            {
+                yield return MediaMapper.Map(mongoMedia);
+            }
+        }
+    }
+
     public async Task<Media> CreateMediaAsync(Media media, CancellationToken cancellationToken)
     {
         MongoMedia? existingMedia = await _mediaStore
@@ -89,5 +116,14 @@ public class MediaRepository : IMediaRepository
     public Task SaveMediaHash(Guid id, byte[] hash, CancellationToken cancellationToken)
     {
         throw new NotImplementedException();
+    }
+
+    public async ValueTask<bool> MediaExistsAsync(Guid id, CancellationToken cancellationToken)
+    {
+        bool exists = await _mediaStore
+            .Find(m => m.Id == id && (m.Deleted == null || !m.Deleted.Value))
+            .AnyAsync(cancellationToken);
+
+        return exists;
     }
 }

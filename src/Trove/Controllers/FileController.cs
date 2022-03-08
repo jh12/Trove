@@ -52,6 +52,9 @@ public class FileController : ControllerBase
             if (Request.ContentLength > _fileOptions.Upload.MaxFileSizeBytes)
                 return new UnprocessableEntityResult();
 
+            if (!await _mediaRepository.MediaExistsAsync(sguid.Guid, cancellationToken))
+                return BadRequest();
+
             SHA256 hashAlgorithm = SHA256.Create();
 
             await using (CryptoStream hashStream = new(Request.Body, hashAlgorithm, CryptoStreamMode.Read, false))
